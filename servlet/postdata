@@ -1,0 +1,33 @@
+package main.servlet;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+public class Post extends HttpServlet {
+    public String msg;
+    public void init(){
+         msg="hiii from init";
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println(msg);
+        out.println("<html><body>");
+        out.println("<h1>Submitted Data</h1>");
+        out.println("<p>First Name: " + firstName + "</p>");
+        out.println("<p>Last Name: " + lastName + "</p>");
+        out.println("</body></html>");
+    }
+    public void destroy(){
+        super.destroy();
+    }
+}
