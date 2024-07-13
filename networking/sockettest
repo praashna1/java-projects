@@ -16,6 +16,7 @@ public class SocketTest {
             }
             System.out.println(dateTime);
 
+
             //write to socket
             OutputStream outputStream = socket.getOutputStream();
             Writer writer = new OutputStreamWriter(outputStream, "UTF-8");
