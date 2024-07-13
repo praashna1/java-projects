@@ -1,0 +1,87 @@
+package Chapter6;
+
+import java.io.*;
+import java.net.*;
+
+public class SocketTest {
+    public static void main(String[] args) {
+        try {
+            Socket socket = new Socket("time.nist.gov",13);
+            InputStream inputStream = socket.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "ASCII");
+            String dateTime="";
+            int time;
+            while ((time=inputStreamReader.read())!=-1){
+                dateTime=dateTime+ (char) time;
+            }
+            System.out.println(dateTime);
+
+            //write to socket
+            OutputStream outputStream = socket.getOutputStream();
+            Writer writer = new OutputStreamWriter(outputStream, "UTF-8");
+            writer.write("write something");
+            writer.flush();
+
+            socket.setOOBInline(true);
+            socket.sendUrgentData(123);
+            System.out.println("binline: "+socket.getOOBInline());
+
+//            socket.setTcpNoDelay(true);
+            System.out.println(socket.getTcpNoDelay());
+
+            socket.setSoLinger(true,5); //max linger time 65535 secs
+//            socket.close();
+            System.out.println("is connected? " +socket.isConnected());
+            System.out.println("so linger "+socket.getSoLinger());
+
+            socket.setSoTimeout(50000);
+            System.out.println("timeout: "+ socket.getSoTimeout());
+
+            socket.setReceiveBufferSize(10);
+            System.out.println("buffer for receive "+socket.getReceiveBufferSize());
+
+            socket.setSendBufferSize(10);
+            System.out.println("buffer for send "+socket.getSendBufferSize());
+
+            socket.setKeepAlive(true);
+            System.out.println("keep alive "+socket.getKeepAlive());
+
+            socket.setReuseAddress(true);
+            System.out.println("reuse address: "+socket.getReuseAddress());
+
+            socket.setTrafficClass(100);
+            System.out.println(socket.getTrafficClass());
+
+
+
+            //Socket socket1 = new Socket(InetAddress.getByName("www.google.com"),90);
+
+            //creating socket without address and making the address later
+           /* Socket socket2 = new Socket();
+            SocketAddress socketAddress = new InetSocketAddress("time.nist.gov", 13);
+            socket2.connect(socketAddress);
+
+            System.out.println(socket2.getRemoteSocketAddress());
+            System.out.println(socket2.getLocalAddress());
+
+            Proxy proxy = new Proxy(Proxy.Type.HTTP, socketAddress);
+            Socket socket3 = new Socket(proxy);
+            socket3.connect(socketAddress);
+            System.out.println(socket3.getInetAddress());
+            System.out.println(socket3.getLocalPort());
+            System.out.println(socket3.getPort());
+            System.out.println(socket3.getLocalAddress());
+
+            if (socket3.isConnected()){
+                System.out.println("Socket is connected");
+            }
+            socket3.close();
+            if (socket3.isClosed()){
+                System.out.println("Socket is closed");
+            }
+*/
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
