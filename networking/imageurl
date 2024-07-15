@@ -1,0 +1,34 @@
+package unit1;
+
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+
+public class Lab6 {
+    public static void main(String[] args) {
+        String fileUrl = "https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHUyMzMxNjM2LWltYWdlLWt3dnk3dzV3LmpwZw.jpg";
+        String savePath = "downloaded.jpg";
+
+        try {
+            URL url = new URL(fileUrl);
+            URLConnection connection = url.openConnection();
+            InputStream inputStream = connection.getInputStream();
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+            FileOutputStream fileOutputStream = new FileOutputStream(savePath);
+
+            byte[] data = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = bufferedInputStream.read(data, 0, 1024)) != -1) {
+                fileOutputStream.write(data, 0, bytesRead);
+            }
+
+            fileOutputStream.close();
+            bufferedInputStream.close();
+
+            System.out.println("File downloaded successfully!");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
